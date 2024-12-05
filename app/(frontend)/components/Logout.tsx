@@ -14,6 +14,7 @@ const Logout = () => {
         },
       });
 
+      router.refresh();
       router.push("/");
     } catch (err) {
       console.error(err);

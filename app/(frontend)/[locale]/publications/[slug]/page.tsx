@@ -26,12 +26,10 @@ export default async function Page({ params: paramsPromise }: Args) {
   const { title, content } = page;
 
   return (
-    <div className="flex flex-col min-h-screen items-center">
-      <section className="flex flex-col mt-auto mb-auto">
-        <h1>{title}</h1>
-        {!!content && <RichText data={content} />}
-      </section>
-    </div>
+    <section className="flex flex-col mt-auto mb-auto">
+      <h1 className="text-3xl mb-2">{title}</h1>
+      {!!content && <RichText data={content} />}
+    </section>
   );
 }
 

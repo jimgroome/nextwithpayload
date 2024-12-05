@@ -24,21 +24,19 @@ export default async function Page({ params: paramsPromise }: Args) {
   });
 
   return (
-    <div className="flex flex-col min-h-screen items-center">
-      <section className="flex flex-col mt-auto mb-auto">
-        <h1>Search results</h1>
-        <ul>
-          {results?.length === 0 && <li>No results found</li>}
-          {results?.map((result) => (
-            <li key={result.id}>
-              <a href={`/${locale}/publications/${result.slug}`}>
-                {result.title}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </section>
-    </div>
+    <section className="flex flex-col mt-auto mb-auto">
+      <h1 className="text-3xl mb-2">Search results</h1>
+      <ul>
+        {results?.length === 0 && <li>No results found</li>}
+        {results?.map((result) => (
+          <li key={result.id}>
+            <a href={`/${locale}/publications/${result.slug}`}>
+              {result.title}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }
 

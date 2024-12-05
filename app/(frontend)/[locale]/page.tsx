@@ -2,7 +2,6 @@ import configPromise from "@payload-config";
 import { getPayload, TypedLocale } from "payload";
 import { draftMode, headers as nextHeaders } from "next/headers";
 import React, { cache } from "react";
-import config from "@payload-config";
 
 import Publications from "../components/Publications";
 import SearchForm from "../components/SearchForm";
@@ -22,8 +21,6 @@ export default async function Page({ params: paramsPromise }: Args) {
   const { publications, isLoggedIn } = await getPageData({
     locale,
   });
-
-  const payload = await getPayload({ config });
 
   return (
     <>

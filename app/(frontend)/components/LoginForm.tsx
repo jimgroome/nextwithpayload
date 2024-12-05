@@ -24,6 +24,7 @@ const LoginForm = () => {
       const data = await req.json();
 
       if (!!data.user) {
+        router.refresh();
         router.push("/");
       }
     } catch (err) {

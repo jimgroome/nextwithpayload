@@ -8,7 +8,6 @@ const Header = () => {
       </h1>
       <ul className="flex flex-row gap-2">
         <li>fhewl</li>
-        <li>fhewl</li>
       </ul>
     </header>
   );

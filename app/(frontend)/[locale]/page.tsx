@@ -8,6 +8,7 @@ import Publications from "../components/Publications";
 import SearchForm from "../components/SearchForm";
 import LoginForm from "../components/LoginForm";
 import Logout from "../components/Logout";
+import RegisterForm from "../components/RegisterForm";
 
 type Args = {
   params: Promise<{
@@ -29,7 +30,14 @@ export default async function Page({ params: paramsPromise }: Args) {
       <Publications publications={publications} />
       <SearchForm />
 
-      {isLoggedIn ? <Logout /> : <LoginForm />}
+      {isLoggedIn ? (
+        <Logout />
+      ) : (
+        <>
+          <RegisterForm />
+          <LoginForm />
+        </>
+      )}
     </>
   );
 }

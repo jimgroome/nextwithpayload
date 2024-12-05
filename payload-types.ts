@@ -12,6 +12,7 @@ export interface Config {
   };
   collections: {
     publications: Publication;
+    search: Search;
     users: User;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -20,6 +21,7 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     publications: PublicationsSelect<false> | PublicationsSelect<true>;
+    search: SearchSelect<false> | SearchSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -85,6 +87,21 @@ export interface Publication {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "search".
+ */
+export interface Search {
+  id: string;
+  title?: string | null;
+  priority?: number | null;
+  doc: {
+    relationTo: 'publications';
+    value: string | Publication;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -110,6 +127,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'publications';
         value: string | Publication;
+      } | null)
+    | ({
+        relationTo: 'search';
+        value: string | Search;
       } | null)
     | ({
         relationTo: 'users';
@@ -165,6 +186,17 @@ export interface PublicationsSelect<T extends boolean = true> {
   title?: T;
   content?: T;
   slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "search_select".
+ */
+export interface SearchSelect<T extends boolean = true> {
+  title?: T;
+  priority?: T;
+  doc?: T;
   updatedAt?: T;
   createdAt?: T;
 }

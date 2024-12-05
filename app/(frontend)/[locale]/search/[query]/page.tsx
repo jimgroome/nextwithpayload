@@ -8,35 +8,40 @@ import { RichText } from "@payloadcms/richtext-lexical/react";
 
 type Args = {
   params: Promise<{
-    slug?: string;
+    query?: string;
     locale?: TypedLocale;
   }>;
 };
 
 export default async function Page({ params: paramsPromise }: Args) {
-  const { slug = "home", locale = "en" } = await paramsPromise;
+  const { query = "home", locale = "en" } = await paramsPromise;
 
-  let page: PublicationType | null;
+  let results: PublicationType[] | null;
 
-  page = await queryPageBySlug({
-    slug,
+  results = await getSearchResults({
+    query,
     locale,
   });
-
-  const { title, content } = page;
 
   return (
     <div className="flex flex-col min-h-screen items-center">
       <section className="flex flex-col mt-auto mb-auto">
-        <h1>{title}</h1>
-        {!!content && <RichText data={content} />}
+        <h1>Search results</h1>
+        <ul>
+          {results?.length === 0 && <li>No results found</li>}
+          {results?.map((result) => (
+            <li key={result.id}>
+              <a href={`/publications/${result.slug}`}>{result.title}</a>
+            </li>
+          ))}
+        </ul>
       </section>
     </div>
   );
 }
 
-const queryPageBySlug = cache(
-  async ({ slug, locale }: { slug: string; locale: TypedLocale }) => {
+const getSearchResults = cache(
+  async ({ query, locale }: { query: string; locale: TypedLocale }) => {
     const { isEnabled: draft } = await draftMode();
 
     const payload = await getPayload({ config: configPromise });
@@ -44,17 +49,25 @@ const queryPageBySlug = cache(
     const result = await payload.find({
       collection: "publications",
       draft,
-      limit: 1,
       locale: locale || "en",
       pagination: false,
       overrideAccess: draft,
       where: {
-        slug: {
-          equals: slug,
-        },
+        or: [
+          {
+            title: {
+              contains: query,
+            },
+          },
+          {
+            content: {
+              contains: query,
+            },
+          },
+        ],
       },
     });
 
-    return result.docs?.[0] || null;
+    return result.docs || null;
   }
 );

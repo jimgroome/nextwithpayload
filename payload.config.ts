@@ -3,6 +3,7 @@ import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { mongooseAdapter } from "@payloadcms/db-mongodb";
 import { buildConfig } from "payload";
 import Publications from "./app/(payload)/collections/Publications";
+import { searchPlugin } from "@payloadcms/plugin-search";
 
 export default buildConfig({
   // If you'd like to use Rich Text, pass your editor here
@@ -36,4 +37,12 @@ export default buildConfig({
     ], // required
     defaultLocale: "en", // required
   },
+  plugins: [
+    searchPlugin({
+      collections: ["publications"],
+      defaultPriorities: {
+        publications: 10,
+      },
+    }),
+  ],
 });

@@ -1,11 +1,13 @@
 import configPromise from "@payload-config";
 import { getPayload, TypedLocale } from "payload";
-import { draftMode } from "next/headers";
+import { draftMode, headers as nextHeaders } from "next/headers";
 import React, { cache } from "react";
+import config from "@payload-config";
 
-import type { Publication as PublicationType } from "@/payload-types";
 import Publications from "../components/Publications";
 import SearchForm from "../components/SearchForm";
+import LoginForm from "../components/LoginForm";
+import Logout from "../components/Logout";
 
 type Args = {
   params: Promise<{
@@ -16,26 +18,30 @@ type Args = {
 export default async function Page({ params: paramsPromise }: Args) {
   const { locale = "en" } = await paramsPromise;
 
-  let publications: PublicationType[] | null;
-
-  publications = await queryPublications({
+  const { publications, isLoggedIn } = await getPageData({
     locale,
   });
+
+  const payload = await getPayload({ config });
 
   return (
     <>
       <Publications publications={publications} />
       <SearchForm />
+
+      {isLoggedIn ? <Logout /> : <LoginForm />}
     </>
   );
 }
 
-const queryPublications = cache(async ({ locale }: { locale: TypedLocale }) => {
+const getPageData = cache(async ({ locale }: { locale: TypedLocale }) => {
   const { isEnabled: draft } = await draftMode();
+
+  const headers = await nextHeaders();
 
   const payload = await getPayload({ config: configPromise });
 
-  const result = await payload.find({
+  const publications = await payload.find({
     collection: "publications",
     draft,
     limit: 5,
@@ -44,5 +50,7 @@ const queryPublications = cache(async ({ locale }: { locale: TypedLocale }) => {
     overrideAccess: draft,
   });
 
-  return result.docs || null;
+  const auth = await payload.auth({ headers });
+
+  return { publications: publications.docs || null, isLoggedIn: !!auth.user };
 });

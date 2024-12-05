@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const SearchForm = () => {
   const params = useParams<{ locale: string }>();
@@ -10,13 +10,15 @@ const SearchForm = () => {
   const router = useRouter();
 
   return (
-    <div>
-      <h1>Search</h1>
+    <div className="mb-4">
+      <h2 className="text-2xl mb-2">Search</h2>
       <form
-        onSubmit={(event) => {
+        onSubmit={async (event) => {
           event.preventDefault();
           router.push(`/${locale}/search/${searchTerm}`);
         }}
+        autoComplete="off"
+        className="flex gap-2"
       >
         <input
           type="text"

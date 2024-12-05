@@ -8,15 +8,21 @@ const Publications = ({ publications }: { publications: Publication[] }) => {
   const { locale } = params;
 
   return (
-    <div>
-      <h1>Publications</h1>
-      {publications?.map((publication) => (
-        <h2 key={publication.id}>
-          <a href={`/${locale}/publications/${publication.slug}`}>
-            {publication.title}
-          </a>
-        </h2>
-      ))}
+    <div className="mb-4">
+      <h2 className="mb-2 text-2xl">Publications</h2>
+      {publications.length === 0 ? (
+        <p>No publications found</p>
+      ) : (
+        <ul>
+          {publications?.map((publication) => (
+            <li key={publication.id}>
+              <a href={`/${locale}/publications/${publication.slug}`}>
+                {publication.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };

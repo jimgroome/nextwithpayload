@@ -1,16 +1,33 @@
 import sharp from "sharp";
-import { lexicalEditor } from "@payloadcms/richtext-lexical";
+import {
+  EXPERIMENTAL_TableFeature,
+  lexicalEditor,
+  LinkFeature,
+} from "@payloadcms/richtext-lexical";
 import { mongooseAdapter } from "@payloadcms/db-mongodb";
 import { buildConfig } from "payload";
 import Publications from "./app/(payload)/collections/Publications";
 import { searchPlugin } from "@payloadcms/plugin-search";
+import Admins from "./app/(payload)/collections/Admins";
+import Users from "./app/(payload)/collections/Users";
 
 export default buildConfig({
+  admin: {
+    user: "admins",
+  },
   // If you'd like to use Rich Text, pass your editor here
-  editor: lexicalEditor(),
+  editor: lexicalEditor({
+    features: ({ defaultFeatures, rootFeatures }) => [
+      ...defaultFeatures,
+      EXPERIMENTAL_TableFeature(),
+      // TableFeatureClient({
 
+      // }),
+      // LinkFeature,
+    ],
+  }),
   // Define and configure your collections in this array
-  collections: [Publications],
+  collections: [Publications, Admins, Users],
 
   // Your Payload secret - should be a complex and secure string, unguessable
   secret: process.env.PAYLOAD_SECRET || "",

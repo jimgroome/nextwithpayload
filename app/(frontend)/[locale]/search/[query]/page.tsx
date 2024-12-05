@@ -31,7 +31,9 @@ export default async function Page({ params: paramsPromise }: Args) {
           {results?.length === 0 && <li>No results found</li>}
           {results?.map((result) => (
             <li key={result.id}>
-              <a href={`/publications/${result.slug}`}>{result.title}</a>
+              <a href={`/${locale}/publications/${result.slug}`}>
+                {result.title}
+              </a>
             </li>
           ))}
         </ul>

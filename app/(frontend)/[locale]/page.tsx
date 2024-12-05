@@ -5,6 +5,7 @@ import React, { cache } from "react";
 
 import type { Publication as PublicationType } from "@/payload-types";
 import Publications from "../components/Publications";
+// import SearchForm from "../components/SearchForm";
 
 type Args = {
   params: Promise<{
@@ -25,6 +26,7 @@ export default async function Page({ params: paramsPromise }: Args) {
     <div className="flex flex-col min-h-screen items-center">
       <section className="flex flex-col mt-auto mb-auto">
         <Publications publications={publications} />
+        {/* <SearchForm /> */}
       </section>
     </div>
   );

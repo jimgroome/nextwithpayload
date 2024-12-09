@@ -91,6 +91,21 @@ export interface UserAuthOperations {
 export interface Publication {
   id: string;
   title?: string | null;
+  previewContent?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   content?: {
     root: {
       type: string;
@@ -240,6 +255,7 @@ export interface PayloadMigration {
  */
 export interface PublicationsSelect<T extends boolean = true> {
   title?: T;
+  previewContent?: T;
   content?: T;
   slug?: T;
   updatedAt?: T;

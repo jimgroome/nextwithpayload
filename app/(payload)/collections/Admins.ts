@@ -6,6 +6,11 @@ const Admins: CollectionConfig = {
   admin: {
     useAsTitle: "email",
   },
+  access: {
+    admin: ({ req: { user } }) => {
+      return Boolean(user);
+    },
+  },
   auth: true,
   fields: [],
 };

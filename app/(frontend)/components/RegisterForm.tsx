@@ -10,7 +10,7 @@ const RegisterForm = () => {
 
   const login = async () => {
     try {
-      const req = await fetch("/api/users/", {
+      await fetch("/api/users/", {
         method: "POST",
         credentials: "include",
         headers: {

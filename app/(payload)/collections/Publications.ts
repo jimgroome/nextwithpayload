@@ -11,6 +11,7 @@ const Publications: CollectionConfig = {
   },
   fields: [
     { name: "title", type: "text", localized: true },
+    { name: "previewContent", type: "richText", localized: true },
     { name: "content", type: "richText", localized: true },
     {
       name: "slug",

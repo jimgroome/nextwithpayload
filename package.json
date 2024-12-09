@@ -15,6 +15,7 @@
     "@payloadcms/next": "^3.2.2",
     "@payloadcms/plugin-search": "^3.2.2",
     "@payloadcms/richtext-lexical": "^3.2.2",
+    "deepl-node": "^1.15.0",
     "graphql": "^16.9.0",
     "next": "15.0.3",
     "payload": "^3.2.2",

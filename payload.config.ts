@@ -14,6 +14,7 @@ import { searchPlugin } from "@payloadcms/plugin-search";
 import Publications from "./app/(payload)/collections/Publications";
 import Admins from "./app/(payload)/collections/Admins";
 import Users from "./app/(payload)/collections/Users";
+import { deeplTranslate } from "./app/(payload)/util/deeplTranslate";
 
 export default buildConfig({
   admin: {
@@ -70,10 +71,27 @@ export default buildConfig({
       globals: [],
       resolvers: [
         copyResolver(),
-        openAIResolver({
-          apiKey: process.env.OPENAI_API_KEY!,
+        deeplTranslate({
+          apiKey: process.env.DEEPL_API_KEY!,
         }),
       ],
     }),
   ],
+  i18n: {
+    // supportedLanguages: { en },
+    translations: {
+      en: {
+        "plugin-translator": {
+          resolver_deepl_buttonLabel: "Deepl translate",
+          resolver_deepl_errorMessage:
+            "An error occurred when trying to translate the data",
+          resolver_deepl_modalTitle: "Choose the locale to translate from",
+          resolver_deepl_submitButtonLabelEmpty: "Translate only empty fields",
+          resolver_deepl_submitButtonLabelFull: "Translate all",
+          resolver_deepl_successMessage:
+            'Successfully translated. Press "Save" to apply the changes.',
+        },
+      },
+    },
+  },
 });

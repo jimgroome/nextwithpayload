@@ -8,6 +8,7 @@ const Publications: CollectionConfig = {
   },
   admin: {
     useAsTitle: "title",
+    defaultColumns: ["title", "_status", "updatedAt"],
   },
   fields: [
     { name: "title", type: "text", localized: true },

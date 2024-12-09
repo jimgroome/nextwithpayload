@@ -2,12 +2,16 @@ import sharp from "sharp";
 import {
   EXPERIMENTAL_TableFeature,
   lexicalEditor,
-  LinkFeature,
 } from "@payloadcms/richtext-lexical";
 import { mongooseAdapter } from "@payloadcms/db-mongodb";
 import { buildConfig } from "payload";
-import Publications from "./app/(payload)/collections/Publications";
+import {
+  translator,
+  copyResolver,
+  openAIResolver,
+} from "@payload-enchants/translator";
 import { searchPlugin } from "@payloadcms/plugin-search";
+import Publications from "./app/(payload)/collections/Publications";
 import Admins from "./app/(payload)/collections/Admins";
 import Users from "./app/(payload)/collections/Users";
 
@@ -60,6 +64,16 @@ export default buildConfig({
       defaultPriorities: {
         publications: 10,
       },
+    }),
+    translator({
+      collections: ["publications"],
+      globals: [],
+      resolvers: [
+        copyResolver(),
+        openAIResolver({
+          apiKey: process.env.OPENAI_API_KEY!,
+        }),
+      ],
     }),
   ],
 });

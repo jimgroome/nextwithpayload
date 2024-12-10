@@ -15,6 +15,7 @@ import Publications from "./app/(payload)/collections/Publications";
 import Admins from "./app/(payload)/collections/Admins";
 import Users from "./app/(payload)/collections/Users";
 import { deeplTranslate } from "./app/(payload)/util/deeplTranslate";
+import Pages from "./app/(payload)/collections/Pages";
 
 export default buildConfig({
   admin: {
@@ -26,7 +27,7 @@ export default buildConfig({
       EXPERIMENTAL_TableFeature(),
     ],
   }),
-  collections: [Publications, Admins, Users],
+  collections: [Publications, Admins, Users, Pages],
   secret: process.env.PAYLOAD_SECRET || "",
   db: mongooseAdapter({
     url: process.env.DATABASE_URI || "",
